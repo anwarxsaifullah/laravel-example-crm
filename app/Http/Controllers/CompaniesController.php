@@ -40,6 +40,13 @@ class CompaniesController extends Controller
      */
     public function store(Request $request)
     {
+        $request->validate([
+            'name' => 'required|unique:companies|max:64',
+            'email' => 'required|email:dns|max:64',
+            'website' => 'required|max:64',
+            'logo' => 'required|dimensions:min_width=100,min_height=100',
+        ]);
+
         $company = new Companies;
 
         $company->name = $request->name;
@@ -92,6 +99,13 @@ class CompaniesController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $request->validate([
+            'name' => 'required|unique:companies|max:64',
+            'email' => 'required|email:dns|max:64',
+            'website' => 'required|max:64',
+            'logo' => 'dimensions:min_width=100,min_height=100',
+        ]);
+
         $company = Companies::find($id);
 
         if(NULL !== $request->logo){

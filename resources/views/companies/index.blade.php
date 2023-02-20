@@ -21,7 +21,7 @@
                         <tr>
                             <td class="border p-4">{{ $company->name }}</td>
                             <td class="border p-4 w-32">
-                                <img src="{{ $request->getBaseUrl().'/images/companies/'.$company->logo }}" alt="" class="w-24">
+                                <img src="{{ $request->getBaseUrl().'/images/'.$company->logo }}" alt="" class="w-24">
                             </td>
                             <td class="border p-4">
                                 <a href="http://{{ $company->website }}" target="_blank" class="hover:text-gray-400">{{ $company->website }}</a>
