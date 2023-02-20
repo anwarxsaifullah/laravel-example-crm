@@ -40,6 +40,14 @@ class EmployeesController extends Controller
      */
     public function store(Request $request)
     {
+        $request->validate([
+            'first_name' => 'required|max:64',
+            'last_name' => 'required|max:64',
+            'company' => 'required|exists:companies,name|max:64',
+            'email' => 'required|email:dns|max:64',
+            'phone' => 'required|max:64',
+        ]);
+
         $employee = new Employees;
 
         $employee->first_name = $request->first_name;
@@ -87,6 +95,14 @@ class EmployeesController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $request->validate([
+            'first_name' => 'required|max:64',
+            'last_name' => 'required|max:64',
+            'company' => 'required|exists:companies,name|max:64',
+            'email' => 'required|email:dns|max:64',
+            'phone' => 'required|max:64',
+        ]);
+
         $employee = Employees::find($id);
 
         $employee->first_name = $request->first_name;
