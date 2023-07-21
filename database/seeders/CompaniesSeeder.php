@@ -19,15 +19,7 @@ class CompaniesSeeder extends Seeder
     {
         $faker = Faker::create('en_US');
         for($i = 0; $i < 50; $i++){
-            // $logoName = time().'.jpg';
-            $publicPath = public_path('images');
-            // var_dump($publicPath);
-            $logoName = $faker->image($publicPath, 100, 100, 'cats');
-            $path = explode('\\', $logoName);
-            $logoName = $path[count($path)-1];
-            // $newName = $publicPath.'\\'.$logoName;
-            // $newName = $logoName;
-            // Storage::move($tmp, $newName);
+            $logoName = 'company-default.jpg';
             DB::table('companies')->insert([
                 'name' => $faker->company,
                 'email' => $faker->email,
