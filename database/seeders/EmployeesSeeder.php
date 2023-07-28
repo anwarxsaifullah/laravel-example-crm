@@ -18,14 +18,14 @@ class EmployeesSeeder extends Seeder
     public function run()
     {
         $faker = Faker::create('en_US');
-        $companies = Companies::all('name');
-        
+        $companies = Companies::pluck('id')->toArray();
+        // var_dump($companies);
         for($i = 0; $i < 50; $i++){
-            $company = $companies[rand(0,count($companies)-1)];
+            $company_id = $companies[array_rand($companies)];
             DB::table('employees')->insert([
                 'first_name' => $faker->firstName,
                 'last_name' => $faker->lastName,
-                'company' => $company->name,
+                'company_id' => $company_id,
                 'email' => $faker->email,
                 'phone' => $faker->phoneNumber(),
             ]);

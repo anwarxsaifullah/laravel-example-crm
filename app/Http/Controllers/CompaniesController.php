@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Companies;
+use App\Models\Employees;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 
+use function PHPUnit\Framework\isEmpty;
 use function PHPUnit\Framework\isNull;
 
 class CompaniesController extends Controller
@@ -17,8 +19,17 @@ class CompaniesController extends Controller
      */
     public function index(Request $request)
     {
-        $companies = Companies::paginate(10);
-
+        if(isset($_GET['search'])){
+            $query = $_GET['search'];
+            if( strlen($query) === 0){
+                $companies = Companies::paginate(10);
+            }else{
+                $companies = Companies::where('name', 'like', '%'.$query.'%')->paginate(10);
+            }
+        }else{
+            $companies = Companies::paginate(10);
+        }
+        
         return view('companies.index', ["companies"=>$companies, "request"=>$request]);
     }
 
@@ -69,9 +80,14 @@ class CompaniesController extends Controller
      * @param  \App\Models\Companies  $companies
      * @return \Illuminate\Http\Response
      */
-    public function show(Companies $companies)
+    public function show($id)
     {
-        //
+        $employees = Employees::where('company_id', '=', $id)
+                        ->join('companies', 'employees.company_id', '=', 'companies.id')
+                        ->select('employees.*', 'companies.name as company_name')
+                        ->paginate(10);
+
+        return view('employees.index', ["employees"=>$employees, "detail"=>true]);
     }
 
     /**

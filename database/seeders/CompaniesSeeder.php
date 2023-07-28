@@ -19,7 +19,7 @@ class CompaniesSeeder extends Seeder
     {
         $faker = Faker::create('en_US');
         for($i = 0; $i < 50; $i++){
-            $logoName = 'company-default.jpg';
+            $logoName = 'company-default.png';
             DB::table('companies')->insert([
                 'name' => $faker->company,
                 'email' => $faker->email,

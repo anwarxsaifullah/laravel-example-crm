@@ -17,12 +17,12 @@ return new class extends Migration
             $table->id();
             $table->string('first_name', 64);
             $table->string('last_name', 64);
-            $table->string('company', 64);
+            $table->foreignId('company_id');
             $table->string('email', 64);
             $table->string('phone', 20);
             $table->timestamps();
 
-            $table->foreign('company')->references('name')->on('companies');
+            $table->foreign('company_id')->references('id')->on('companies');
         });
     }
 

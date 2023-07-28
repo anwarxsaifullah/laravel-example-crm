@@ -15,8 +15,10 @@ class EmployeesController extends Controller
      */
     public function index()
     {
-        $employees = Employees::paginate(10);
-
+        $employees = Employees::join('companies', 'employees.company_id', '=', 'companies.id')
+                                ->select('employees.*', 'companies.name as company_name')
+                                ->paginate(10);
+        
         return view('employees.index', ["employees" => $employees]);
     }
 
