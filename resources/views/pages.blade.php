@@ -24,9 +24,9 @@
       @if (is_array($element))
         @foreach ($element as $page => $url)
           @if ($page == $paginator->currentPage())
-            <button class="active button" aria-current="page"><span>{{ $page }}</span></button>
+            <button class="disabled button hover:border-transparent hover:cursor-default  " aria-current="page"><span class="text-gray-400">{{ $page }}</span></button>
           @else
-            <button class="button"><a href="{{ isset($_GET['search']) ? $url.'&search='.$_GET['search'] : $url }}">{{ $page }}</a></button>
+            <a class="button" href="{{ isset($_GET['search']) ? $url.'&search='.$_GET['search'] : $url }}">{{ $page }}</a>
           @endif
         @endforeach
       @endif
