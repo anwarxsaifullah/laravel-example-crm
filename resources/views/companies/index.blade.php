@@ -156,7 +156,7 @@
                   <div class="field">
                     <label for="company" class="label">Company Name</label>
                     <div class="control icons-left">
-                      <input class="input" type="text" placeholder="Company Name" id="company" name="name" required>
+                      <input class="input" type="text" placeholder="Company Name" id="company" name="name" required value="">
                       <span class="icon left"><i class="mdi mdi-account"></i></span>
                     </div>
                   </div>
@@ -270,7 +270,7 @@
     {{-- <div class="modal-card"> --}}
       <form method="post" action="{{ route('companies.store') }}" enctype="multipart/form-data" class="modal-card">
         <header class="modal-card-head">
-          <p class="modal-card-title">Edit</p>
+          <p class="modal-card-title">Add</p>
         </header>
         
         <section class="modal-card-body">
@@ -286,14 +286,14 @@
                   <div class="field">
                     <label for="company" class="label">Company Name</label>
                     <div class="control icons-left">
-                      <input class="input" type="text" placeholder="Company Name" id="company" name="name" required>
+                      <input class="input" type="text" placeholder="Company Name" id="company" name="name" required value="{{ old('name') }}">
                       <span class="icon left"><i class="mdi mdi-account"></i></span>
                     </div>
                   </div>
                   <div class="field">
                     <label for="website" class="label">Website</label>
                     <div class="control icons-left icons-right">
-                      <input class="input" type="text" placeholder="Website" value="" id="website" name="website" required>
+                      <input class="input" type="text" placeholder="Website" id="website" name="website" required value="{{ old('website') }}">
                       <span class="icon left"><i class="mdi mdi-web"></i></span>
                       {{-- <span class="icon right"><i class="mdi mdi-check"></i></span> --}}
                     </div>
@@ -301,7 +301,7 @@
                   <div class="field">
                     <label for="email" class="label">Email</label>
                     <div class="control icons-left icons-right">
-                      <input class="input" type="email" placeholder="Email" value="" id="email" name="email" required>
+                      <input class="input" type="email" placeholder="Email" id="email" name="email" required value="{{ old('email') }}">
                       <span class="icon left"><i class="mdi mdi-mail"></i></span>
                       {{-- <span class="icon right"><i class="mdi mdi-check"></i></span> --}}
                     </div>
@@ -317,7 +317,7 @@
                           <a class="button blue">
                             Upload
                           </a>
-                          <input type="file" name="logo" id="logo" required onchange="showImagePreview(event)" data-modal="add">
+                          <input type="file" name="logo" id="logo" required onchange="showImagePreview(event)" data-modal="add" value="">
                         </label>
                       </div>
                     </div>

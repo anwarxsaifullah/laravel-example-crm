@@ -85,7 +85,7 @@ class CompaniesController extends Controller
      * @param  \App\Models\Companies  $companies
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Request $request,$id)
     {
         $searchQuery = isset($_GET['search']) ? $_GET['search'] : '';
 
@@ -108,7 +108,7 @@ class CompaniesController extends Controller
         $companies = Companies::all('id','name');
 
         // dd($employees);
-        return view('employees.index', ["employees" => $employees, "detail" => true, "company_name" => $company_name, "companies" => $companies]);
+        return view('employees.index', ["employees" => $employees, "detail" => true, "company_name" => $company_name, "companies" => $companies, "request"=>$request]);
     }
 
     /**

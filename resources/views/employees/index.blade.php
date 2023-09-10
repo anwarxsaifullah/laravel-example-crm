@@ -236,14 +236,14 @@
                     <div class="field">
                       <label for="first_name" class="label">First Name</label>
                       <div class="control icons-left">
-                        <input class="input" type="text" placeholder="First name" id="first_name" name="first_name" required>
+                        <input class="input" type="text" placeholder="First name" id="first_name" name="first_name" required value="{{ old('first_name') }}">
                         <span class="icon left"><i class="mdi mdi-account"></i></span>
                       </div>
                     </div>
                     <div class="field">
                       <label for="last_name" class="label">Last Name</label>
                       <div class="control icons-left">
-                        <input class="input" type="text" placeholder="Last name" id="last_name" name="last_name" required>
+                        <input class="input" type="text" placeholder="Last name" id="last_name" name="last_name" required value="{{ old('last_name') }}">
                         <span class="icon left"><i class="mdi mdi-account"></i></span>
                       </div>
                     </div>
@@ -256,7 +256,7 @@
                               <option value="">Select a company</option>
                               @foreach ($companies as $company)
                               {{-- <option value="{{ $company->id }}" {{ ($company->name === $company_name) ? 'selected' : '' }}>{{$company->name}}</option> --}}
-                              <option value="{{ $company->id }}" @if(isset($company_name)) @if($company->name === $company_name) selected @endif @endif>{{$company->name}}</option>
+                              <option value="{{ $company->id }}" @if($company->id === intval(old('company_id'))) selected @endif @if(isset($company_name)) @if(($company->name === $company_name)) selected @endif @endif>{{$company->name}}</option>
                               @endforeach
                             </select>
                           </div>
@@ -269,7 +269,7 @@
                     <div class="field">
                       <label for="email" class="label">Email</label>
                       <div class="control icons-left icons-right">
-                        <input class="input" type="email" placeholder="Email" value="" id="email" name="email" required>
+                        <input class="input" type="email" placeholder="Email" id="email" name="email" required value="{{ old('email') }}">
                         <span class="icon left"><i class="mdi mdi-mail"></i></span>
                         {{-- <span class="icon right"><i class="mdi mdi-check"></i></span> --}}
                       </div>
@@ -277,7 +277,7 @@
                     <div class="field">
                       <label for="phone" class="label">Phone</label>
                       <div class="control icons-left icons-right">
-                        <input class="input" type="tel" placeholder="Phone" value="" id="phone" name="phone" required>
+                        <input class="input" type="tel" placeholder="Phone" id="phone" name="phone" required value="{{ old('phone') }}">
                         <span class="icon left"><i class="mdi mdi-phone"></i></span>
                         {{-- <span class="icon right"><i class="mdi mdi-check"></i></span> --}}
                       </div>

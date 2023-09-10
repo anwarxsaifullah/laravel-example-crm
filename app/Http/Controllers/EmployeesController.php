@@ -117,7 +117,7 @@ class EmployeesController extends Controller
             'first_name' => 'required|max:64',
             'last_name' => 'required|max:64',
             'company_id' => 'required|exists:companies,id|max:64',
-            'email' => 'required|email:dns|max:64',
+            'email' => 'required|email|max:64',
             'phone' => 'required|max:64',
         ]);
 
