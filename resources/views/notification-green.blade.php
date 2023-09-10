@@ -1,6 +1,6 @@
 <div class="notification green p-2 md:py-3">
   <div class="flex flex-row items-center justify-between space-y-0">
-    <div class="md:font-bold">
+    <div class="font-bold">
       <span class="icon"><i class="mdi mdi-check-bold"></i></span>
       {{ $request->session()->get('status') }}
     </div>
