@@ -23,7 +23,9 @@ class CompaniesController extends Controller
         $searchTerm = isset($_GET['search']) ? $_GET['search'] : '';
 
         $companies = Companies::when($searchTerm, function($query, $searchTerm){
-            return $query->where('name', 'like', '%' . $searchTerm .'%');
+            return $query->where('name', 'like', '%' . $searchTerm .'%')
+                ->orWhere('email', 'like', '%' . $searchTerm . '%')
+                ->orWhere('website', 'like', '%' . $searchTerm . '%');
         })->paginate(10);
 
         // if (isset($_GET['search']) && (strlen($_GET['search']) !== 0)) {

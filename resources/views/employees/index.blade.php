@@ -4,17 +4,13 @@
 
 <section class="section main-section">
 @if($errors->any())
-@foreach($errors->all() as $error)
-<div class="notification red">
-  <div class="flex flex-col md:flex-row items-center justify-between space-y-3 md:space-y-0">
-    <div>
-      <span class="icon"><i class="mdi mdi-error"></i></span>
-      <b>{{ $error }}</b>
-    </div>
-    <button type="button" class="button small textual bg-white --jb-notification-dismiss">Dismiss</button>
-  </div>
-</div>
-@endforeach
+  @foreach($errors->all() as $error)
+    @include('notification-red')
+  @endforeach
+@endif
+
+@if ($request->session()->has('status'))
+  @include('notification-green')
 @endif
 
 <div class="card has-table" id="employees">

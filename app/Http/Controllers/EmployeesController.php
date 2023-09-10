@@ -13,7 +13,7 @@ class EmployeesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         $searchQuery = isset($_GET['search']) ? $_GET['search'] : '';
 
@@ -21,7 +21,11 @@ class EmployeesController extends Controller
             ->select('employees.*', 'companies.name as company_name');
 
         if (!empty($searchQuery)) {
-            $employeesQuery->where('first_name', 'like', '%' . $_GET['search'] . '%');
+            $employeesQuery->where('first_name', 'like', '%' . $searchQuery . '%')
+                           ->orWhere('last_name', 'like', '%' . $searchQuery . '%')
+                           ->orWhere('companies.name', 'like', '%' . $searchQuery . '%')
+                           ->orWhere('employees.email', 'like', '%' . $searchQuery . '%')
+                           ->orWhere('phone', 'like', '%' . $searchQuery . '%');
         }
 
         $employees = $employeesQuery->paginate(10);
@@ -36,7 +40,7 @@ class EmployeesController extends Controller
         //         ->paginate(10);
         // }
 
-        return view('employees.index', ["employees" => $employees, "companies"=>$companies]);
+        return view('employees.index', ["employees" => $employees, "companies"=>$companies, "request" => $request]);
     }
 
     /**
