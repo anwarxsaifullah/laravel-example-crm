@@ -31,7 +31,7 @@
         </div>
         <div class="navbar-menu" id="navbar-menu">
             <div class="navbar-end">
-                <div class="navbar-item dropdown has-divider has-user-avatar">
+                <div class="navbar-item dropdown has-divider has-user-avatar lg:min-w-[8rem]">
                     <a class="navbar-link">
                         <div class="is-user-name"><span>{{ Auth::user()->name }}</span></div>
                         <span class="icon"><i class="mdi mdi-chevron-down"></i></span>
