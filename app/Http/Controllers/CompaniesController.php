@@ -42,7 +42,7 @@ class CompaniesController extends Controller
      */
     public function create()
     {
-        return view('companies.create');
+        // 
     }
 
     /**
@@ -117,12 +117,7 @@ class CompaniesController extends Controller
      */
     public function edit($id, Request $request)
     {
-        $company = Companies::find($id);
-
-        return view('companies.edit', [
-            "company" => $company,
-            "request" => $request,
-        ]);
+        // 
     }
 
     /**

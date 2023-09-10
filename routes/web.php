@@ -29,8 +29,8 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-    Route::resource('companies', CompaniesController::class);
-    Route::resource('employees', EmployeesController::class);
+    Route::resource('companies', CompaniesController::class)->except(['create','edit']);
+    Route::resource('employees', EmployeesController::class)->except(['create','edit','show']);
     // Route::resource('companies', CompaniesController::class)->name('index','companies');
     // Route::resource('employees', EmployeesController::class)->name('index','employees');
 

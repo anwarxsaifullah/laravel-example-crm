@@ -140,12 +140,13 @@ if(null !== employees){
   });
 }
 // Add button
-document.querySelector(".add.button").addEventListener("click", function (e) {
-  e.preventDefault();
-  // document.querySelector('#add-modal > form:nth-child(2) > section:nth-child(2) > div:nth-child(1) > div:nth-child(2) > div:nth-child(1) > div:nth-child(1) > div:nth-child(2) > input:nth-child(1)').focus()
-  (document.querySelector('#add-modal #company') || document.querySelector('#add-modal #first_name')).focus();
-  // document.querySelector('#edit-modal form').setAttribute('action', e.target.getAttribute('data-action'));
-});
+const addButton = document.querySelector(".add.button");
+if(null !== addButton){
+  addButton.addEventListener("click", function (e) {
+    e.preventDefault();
+    (document.querySelector('#add-modal #company') || document.querySelector('#add-modal #first_name')).focus();
+  });
+}
 
 // Image preview
 function showImagePreview(e) {
@@ -163,4 +164,22 @@ function showImagePreview(e) {
   imgWrapper.classList.remove('hidden');
   imgWrapper.classList.toggle('flex');
   imgWrapper.classList.toggle('items-center');
+}
+
+
+// Hide login help
+function hideHelp(e){
+  // Get the parent element
+  const parent = e.target.parentElement.parentElement;
+
+  // Find the help element within the parent
+  const helpText = parent.querySelector('.help');
+  // Hide the help element by setting its style to 'display:none'
+  if(helpText){
+    if(e.target.value !== ''){
+      helpText.classList.add('hidden')
+    } else{
+      helpText.classList.remove('hidden');
+    }
+  }
 }

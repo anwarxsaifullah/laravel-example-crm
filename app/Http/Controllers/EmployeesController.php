@@ -46,9 +46,7 @@ class EmployeesController extends Controller
      */
     public function create()
     {
-        $companies = Companies::all('name');
-
-        return view('employees.create', ["companies" => $companies]);
+        // 
     }
 
     /**
@@ -99,10 +97,7 @@ class EmployeesController extends Controller
      */
     public function edit($id)
     {
-        $employee = Employees::find($id);
-        $companies = Companies::all('name');
 
-        return view('employees.edit', ["employee" => $employee, "companies" => $companies]);
     }
 
     /**
