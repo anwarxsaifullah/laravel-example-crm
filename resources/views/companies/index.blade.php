@@ -2,6 +2,7 @@
 
 @section('content')
 
+<section class="section main-section">
 @if($errors->any())
 @foreach($errors->all() as $error)
 <div class="notification red">
@@ -104,7 +105,7 @@
               <a class="button small green" href="{{ route('companies.show', $company->id) }}" target="_blank">
                 <span class="icon"><i class="mdi mdi-eye"></i></span>
               </a>
-              <button class="edit button small blue --jb-modal"  data-target="edit-modal" type="button" data-id="{{ $company->id }}" data-company="{{ $company->name }}" data-website="{{ $company->website }}" data-email="{{ $company->email }}" data-title="Edit" data-action="{{ route('companies.update', $company->id) }}">
+              <button class="edit button small blue --jb-modal"  data-target="edit-modal" type="button" data-id="{{ $company->id }}" data-company="{{ $company->name }}" data-website="{{ $company->website }}" data-email="{{ $company->email }}" data-title="Edit" data-action="{{ route('companies.update', $company->id) }}" data-img="{{ $request->getBaseUrl().'/images/'.$company->logo }}">
                 <span class="icon"><i class="mdi mdi-pencil"></i></span>
               </button>
               <button class="delete button small red --jb-modal" data-target="delete-modal" type="button" data-item="{{ $company->name }}" data-id="{{ $company->id }}">
@@ -415,7 +416,7 @@
     {{-- </div> --}}
   </div>
 </div>
-  
+</section>  
 @endsection
 {{-- <x-app-layout>
     <x-slot name="header">

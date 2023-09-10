@@ -2,6 +2,7 @@
 
 @section('content')
 
+<section class="section main-section">
 @if($errors->any())
 @foreach($errors->all() as $error)
 <div class="notification red">
@@ -298,6 +299,7 @@
       {{-- </div> --}}
     </div>
   </div>
+</section>
 @endsection
 
 

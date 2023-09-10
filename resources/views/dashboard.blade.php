@@ -20,8 +20,8 @@
             <a class="navbar-item mobile-aside-button">
                 <span class="icon"><i class="mdi mdi-forwardburger mdi-24px"></i></span>
             </a>
-            <div class="navbar-item">
-                <div class="control"><input placeholder="Search everywhere..." class="input"></div>
+            <div class="navbar-item lg:ml-4">
+                <span class="font-semibold">Dashboard</span>
             </div>
         </div>
         <div class="navbar-brand is-right">
@@ -31,104 +31,30 @@
         </div>
         <div class="navbar-menu" id="navbar-menu">
             <div class="navbar-end">
-                <div class="navbar-item dropdown has-divider">
-                    <a class="navbar-link">
-                        <span class="icon"><i class="mdi mdi-menu"></i></span>
-                        <span>Sample Menu</span>
-                        <span class="icon">
-                            <i class="mdi mdi-chevron-down"></i>
-                        </span>
-                    </a>
-                    <div class="navbar-dropdown">
-                        <a href="profile.html" class="navbar-item">
-                            <span class="icon"><i class="mdi mdi-account"></i></span>
-                            <span>My Profile</span>
-                        </a>
-                        <a class="navbar-item">
-                            <span class="icon"><i class="mdi mdi-settings"></i></span>
-                            <span>Settings</span>
-                        </a>
-                        <a class="navbar-item">
-                            <span class="icon"><i class="mdi mdi-email"></i></span>
-                            <span>Messages</span>
-                        </a>
-                        <hr class="navbar-divider">
-                        <form method="POST" action="{{ route('logout') }}">
-                          @csrf
-                          {{-- <button type="submit" class="">
-                              {{ __('Log Out') }}
-                          </button> --}}
-                          <button class="navbar-item hover:cursor-pointer" type="submit">
-                            <span class="icon">
-                                <div class="mdi mdi-logout">
-                                  {{-- {{ __('Log Out') }} --}}
-                                </div>
-                            </span>
-                            <span>Log Out</span>
-                          </button>
-                        </form>
-                        
-                    </div>
-                </div>
                 <div class="navbar-item dropdown has-divider has-user-avatar">
                     <a class="navbar-link">
-                        <div class="user-avatar">
-                            <img src="https://avatars.dicebear.com/v2/initials/john-doe.svg" alt="John Doe"
-                                class="rounded-full">
-                        </div>
-                        <div class="is-user-name"><span>John Doe</span></div>
+                        <div class="is-user-name"><span>{{ Auth::user()->name }}</span></div>
                         <span class="icon"><i class="mdi mdi-chevron-down"></i></span>
                     </a>
                     <div class="navbar-dropdown">
-                        <a href="profile.html" class="navbar-item">
+                        <a href="{{ route('profile.edit') }}" class="navbar-item">
                             <span class="icon"><i class="mdi mdi-account"></i></span>
                             <span>My Profile</span>
                         </a>
-                        <a class="navbar-item">
-                            <span class="icon"><i class="mdi mdi-settings"></i></span>
-                            <span>Settings</span>
-                        </a>
-                        <a class="navbar-item">
-                            <span class="icon"><i class="mdi mdi-email"></i></span>
-                            <span>Messages</span>
-                        </a>
                         <hr class="navbar-divider">
-                        <a class="navbar-item">
+                        <form method="POST" action="{{ route('logout') }}" class="navbar-item">
+                          @csrf
+                          <button title="Log out" class="" type="submit">
                             <span class="icon"><i class="mdi mdi-logout"></i></span>
-                            <span>Log Out</span>
-                        </a>
+                            <span>Log out</span>
+                          </button>
+                        </form>
                     </div>
                 </div>
-                <a href="https://justboil.me/tailwind-admin-templates/free-dashboard/"
-                    class="navbar-item has-divider desktop-icon-only">
-                    <span class="icon"><i class="mdi mdi-help-circle-outline"></i></span>
-                    <span>About</span>
-                </a>
-                <a href="https://github.com/justboil/admin-one-tailwind"
-                    class="navbar-item has-divider desktop-icon-only">
-                    <span class="icon"><i class="mdi mdi-github-circle"></i></span>
-                    <span>GitHub</span>
-                </a>
-
+{{-- 
                 <form method="POST" action="{{ route('logout') }}" class="navbar-item desktop-icon-only">
-                  @csrf
-                  {{-- <button type="submit" class="">
-                      {{ __('Log Out') }}
-                  </button> --}}
-                  <button title="Log out" class="" type="submit">
-                    <span class="icon"><i class="mdi mdi-logout"></i></span>
-                    <span>Log out</span>
-                  </button>
-
-                  {{-- <button class="navbar-item">
-                    <span class="icon">
-                        <div class="mdi mdi-logout">
-                          {{ __('Log Out') }}
-                        </div>
-                    </span>
-                    <span>Log Out</span>
-                  </button> --}}
-                </form>
+                  
+                </form> --}}
             </div>
         </div>
     </nav>
@@ -222,9 +148,9 @@
     </aside>
     <!-- Menu End -->
 
-    <section class="section main-section">
+    {{-- <section class="section main-section"> --}}
         @yield('content')
-    </section>
+    {{-- </section> --}}
 
     <!-- Icons below are for demo only. Feel free to use any icon pack. Docs: https://bulma.io/documentation/elements/icon/ -->
     <link rel="stylesheet" href="https://cdn.materialdesignicons.com/7.2.96/css/materialdesignicons.min.css">

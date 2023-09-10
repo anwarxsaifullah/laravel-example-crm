@@ -84,12 +84,16 @@ if(null !== companies){
   const company = companies.querySelector("#company");
   const web = companies.querySelector("#website");
   const email = companies.querySelector("#email");
+  const logo = companies.querySelector('#logo');
 
   companies.querySelectorAll(".edit").forEach((editButton) => {
     editButton.addEventListener("click", function (e) {
       company.value = e.target.getAttribute("data-company");
       web.value = e.target.getAttribute("data-website");
       email.value = e.target.getAttribute("data-email");
+
+      processImagePreview('edit-modal', e.target.getAttribute('data-img'));
+
       const editForm = companies.querySelector("#edit-modal form");
       const editFormAction = editForm.getAttribute("action");
       editForm.setAttribute(
@@ -148,10 +152,8 @@ if(null !== addButton){
   });
 }
 
-// Image preview
-function showImagePreview(e) {
-  const imageUrl = URL.createObjectURL(e.target.files[0]);
-  const modalId = (e.target.getAttribute('data-modal') === 'add') ? 'add-modal' : 'edit-modal';
+
+function processImagePreview(modalId, imageUrl){
   const imgWrapper = document.getElementById(modalId).getElementsByClassName('image')[0];
   const img = document.createElement('img');
 
@@ -162,8 +164,15 @@ function showImagePreview(e) {
   img.src = imageUrl;
   imgWrapper.appendChild(img);
   imgWrapper.classList.remove('hidden');
-  imgWrapper.classList.toggle('flex');
-  imgWrapper.classList.toggle('items-center');
+  imgWrapper.classList.add('flex');
+  imgWrapper.classList.add('items-center');
+}
+
+// Image preview
+function showImagePreview(e) {
+  const imageUrl = URL.createObjectURL(e.target.files[0]);
+  const modalId = (e.target.getAttribute('data-modal') === 'add') ? 'add-modal' : 'edit-modal';
+  processImagePreview(modalId, imageUrl);
 }
 
 
