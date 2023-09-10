@@ -6,6 +6,7 @@ use App\Models\Companies;
 use App\Models\Employees;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
+use Illuminate\Validation\Rule;
 
 use function PHPUnit\Framework\isEmpty;
 use function PHPUnit\Framework\isNull;
@@ -19,18 +20,19 @@ class CompaniesController extends Controller
      */
     public function index(Request $request)
     {
-        if(isset($_GET['search'])){
-            $query = $_GET['search'];
-            if( strlen($query) === 0){
-                $companies = Companies::paginate(10);
-            }else{
-                $companies = Companies::where('name', 'like', '%'.$query.'%')->paginate(10);
-            }
-        }else{
-            $companies = Companies::paginate(10);
-        }
-        
-        return view('companies.index', ["companies"=>$companies, "request"=>$request]);
+        $searchTerm = isset($_GET['search']) ? $_GET['search'] : '';
+
+        $companies = Companies::when($searchTerm, function($query, $searchTerm){
+            return $query->where('name', 'like', '%' . $searchTerm .'%');
+        })->paginate(10);
+
+        // if (isset($_GET['search']) && (strlen($_GET['search']) !== 0)) {
+        //     $companies = Companies::where('name', 'like', '%' . $_GET['search'] . '%')->paginate(10);
+        // } else {
+        //     $companies = Companies::paginate(10);
+        // }
+
+        return view('companies.index', ["companies" => $companies, "request" => $request]);
     }
 
     /**
@@ -53,7 +55,7 @@ class CompaniesController extends Controller
     {
         $request->validate([
             'name' => 'required|unique:companies|max:64',
-            'email' => 'required|email:dns|max:64',
+            'email' => 'required|email|max:64',
             'website' => 'required|max:64',
             'logo' => 'required|dimensions:min_width=100,min_height=100',
         ]);
@@ -64,14 +66,15 @@ class CompaniesController extends Controller
         $company->email = $request->email;
         $company->website = $request->website;
 
-        $fileName = time().'.'.$request->logo->extension();
+        $fileName = time() . '.' . $request->logo->extension();
         $company->logo = $fileName;
         $request->logo->move(public_path('images'), $fileName);
 
-        $company->save();
+        if($company->save()){
+            $request->session()->flash('status', 'Company successfully added!');
+        };
 
-        return redirect(route('companies.index'));
-
+        return redirect()->back();
     }
 
     /**
@@ -82,12 +85,28 @@ class CompaniesController extends Controller
      */
     public function show($id)
     {
-        $employees = Employees::where('company_id', '=', $id)
-                        ->join('companies', 'employees.company_id', '=', 'companies.id')
-                        ->select('employees.*', 'companies.name as company_name')
-                        ->paginate(10);
+        $searchQuery = isset($_GET['search']) ? $_GET['search'] : '';
 
-        return view('employees.index', ["employees"=>$employees, "detail"=>true]);
+        $employeesQuery = Employees::where('company_id', '=', $id)
+            ->join('companies', 'employees.company_id', '=', 'companies.id')
+            ->select('employees.*', 'companies.name as company_name');
+
+        if (!empty($searchQuery)) {
+            $employeesQuery->where('first_name', 'like', '%' . $_GET['search'] . '%');
+        }
+
+        $employees = $employeesQuery->paginate(10);
+
+        // $employees = Employees::where('company_id', '=', $id)
+        //     ->join('companies', 'employees.company_id', '=', 'companies.id')
+        //     ->select('employees.*', 'companies.name as company_name')
+        //     ->paginate(10);
+
+        $company_name = Companies::find($id)->name;
+        $companies = Companies::all('id','name');
+
+        // dd($employees);
+        return view('employees.index', ["employees" => $employees, "detail" => true, "company_name" => $company_name, "companies" => $companies]);
     }
 
     /**
@@ -99,7 +118,7 @@ class CompaniesController extends Controller
     public function edit($id, Request $request)
     {
         $company = Companies::find($id);
-        
+
         return view('companies.edit', [
             "company" => $company,
             "request" => $request,
@@ -115,19 +134,27 @@ class CompaniesController extends Controller
      */
     public function update(Request $request, $id)
     {
+        // dd($request->email);
         $request->validate([
-            'name' => 'required|unique:companies|max:64',
-            'email' => 'required|email:dns|max:64',
+            'name' => [
+                //'required|unique:companies|max:64'
+                'required',
+                'max:64',
+                Rule::unique('companies')->ignore($id)
+            ],
+            'email' => 'required|email|max:64',
             'website' => 'required|max:64',
             'logo' => 'dimensions:min_width=100,min_height=100',
         ]);
 
+        // dd('WOWWWWWWWWWWWWWWWWWWWWWOOOOOOOOOOOOOOOOOOOOOOO');
+
         $company = Companies::find($id);
 
-        if(NULL !== $request->logo){
-            File::delete(public_path('images').'/'.$company->logo);
-            
-            $fileName = time().'.'.$request->logo->extension();
+        if (NULL !== $request->logo) {
+            File::delete(public_path('images') . '/' . $company->logo);
+
+            $fileName = time() . '.' . $request->logo->extension();
             $company->logo = $fileName;
             $request->logo->move(public_path('images'), $fileName);
         }
@@ -136,9 +163,11 @@ class CompaniesController extends Controller
         $company->email = $request->email;
         $company->website = $request->website;
 
-        $company->save();
+        if($company->save()){
+            $request->session()->flash('status', 'Company has been saved!');
+        }
 
-        return redirect(route('companies.index'));
+        return redirect()->back();
     }
 
     /**
@@ -147,11 +176,13 @@ class CompaniesController extends Controller
      * @param  \App\Models\Companies  $companies
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request,$id)
     {
         $company = Companies::find($id);
-        $company->delete();
-        File::delete(public_path('images').'/'.$company->logo);
+        if($company->delete()){
+            $request->session()->flash('status', 'Company has been deleted.');
+        }
+        File::delete(public_path('images') . '/' . $company->logo);
 
         return redirect(route('companies.index'));
     }

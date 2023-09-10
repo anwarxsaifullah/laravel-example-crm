@@ -1,3 +1,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.edit *, .delete * {
+  pointer-events: none;
+}

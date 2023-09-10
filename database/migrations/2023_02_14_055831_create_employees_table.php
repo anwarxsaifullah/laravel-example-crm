@@ -22,7 +22,11 @@ return new class extends Migration
             $table->string('phone', 20);
             $table->timestamps();
 
-            $table->foreign('company_id')->references('id')->on('companies');
+            $table->foreign('company_id')
+                  ->references('id')
+                  ->on('companies')
+                  ->onUpdate('cascade')
+                  ->onDelete('cascade');
         });
     }
 

@@ -15,11 +15,28 @@ class EmployeesController extends Controller
      */
     public function index()
     {
-        $employees = Employees::join('companies', 'employees.company_id', '=', 'companies.id')
-                                ->select('employees.*', 'companies.name as company_name')
-                                ->paginate(10);
-        
-        return view('employees.index', ["employees" => $employees]);
+        $searchQuery = isset($_GET['search']) ? $_GET['search'] : '';
+
+        $employeesQuery = Employees::join('companies', 'employees.company_id', '=', 'companies.id')
+            ->select('employees.*', 'companies.name as company_name');
+
+        if (!empty($searchQuery)) {
+            $employeesQuery->where('first_name', 'like', '%' . $_GET['search'] . '%');
+        }
+
+        $employees = $employeesQuery->paginate(10);
+        $companies = Companies::all(['id', 'name']);
+        // if (isset($_GET['search']) && (strlen($_GET['search']) !== 0)) {
+        //     $employees = Employees::where('first_name', 'like', '%' . $_GET['search'] . '%')->join('companies', 'employees.company_id', '=', 'companies.id')
+        //         ->select('employees.*', 'companies.name as company_name')
+        //         ->paginate(10);;
+        // } else {
+        //     $employees = Employees::join('companies', 'employees.company_id', '=', 'companies.id')
+        //         ->select('employees.*', 'companies.name as company_name')
+        //         ->paginate(10);
+        // }
+
+        return view('employees.index', ["employees" => $employees, "companies"=>$companies]);
     }
 
     /**
@@ -45,7 +62,7 @@ class EmployeesController extends Controller
         $request->validate([
             'first_name' => 'required|max:64',
             'last_name' => 'required|max:64',
-            'company' => 'required|exists:companies,name|max:64',
+            'company_id' => 'required|exists:companies,id|max:64',
             'email' => 'required|email:dns|max:64',
             'phone' => 'required|max:64',
         ]);
@@ -54,13 +71,13 @@ class EmployeesController extends Controller
 
         $employee->first_name = $request->first_name;
         $employee->last_name = $request->last_name;
-        $employee->company = $request->company;
+        $employee->company_id = $request->company_id;
         $employee->email = $request->email;
         $employee->phone = $request->phone;
 
         $employee->save();
 
-        return redirect(route('employees.index'));
+        return redirect()->back();
     }
 
     /**
@@ -100,7 +117,7 @@ class EmployeesController extends Controller
         $request->validate([
             'first_name' => 'required|max:64',
             'last_name' => 'required|max:64',
-            'company' => 'required|exists:companies,name|max:64',
+            'company_id' => 'required|exists:companies,id|max:64',
             'email' => 'required|email:dns|max:64',
             'phone' => 'required|max:64',
         ]);
@@ -109,7 +126,7 @@ class EmployeesController extends Controller
 
         $employee->first_name = $request->first_name;
         $employee->last_name = $request->last_name;
-        $employee->company = $request->company;
+        $employee->company_id = $request->company_id;
         $employee->email = $request->email;
         $employee->phone = $request->phone;
 
@@ -128,7 +145,7 @@ class EmployeesController extends Controller
     {
         $company = Employees::find($id);
         $company->delete();
-        
+
         return redirect(route('employees.index'));
     }
 }
